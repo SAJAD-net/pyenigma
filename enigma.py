@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
+import argparse
 import os
 import pickle
 import sys
 
 #intialize the alpha and symbols
 alpha = "abcdefghijklmnopqrstuvwxyz"
-symbols = "'?!@#$%^&*():><{}-_"
+symbols = "'?!@#$%^&*():><{}-,_."
 
 #clear the screen before the programm runs
 os.system("clear") if os.name == "posix" else os.system("cls")
@@ -26,8 +27,8 @@ try:
 
 #return an error message if the enigma_rotors_configuration file doesn't exist.
 except Exception as err:
-    print("- error: enigma_rotors_configuration.enigma file does'n exist!")
-    print("- please run enigma_rotors_configure.py first.")
+    print("[-] error: enigma_rotors_configuration.enigma file does'n exist!")
+    print("[-] please run enigma_rotors_configure.py first.")
     sys.exit()
 
 
@@ -79,10 +80,43 @@ def enigma(plain):
     return cipher
 
 
+def file_enc(file_name):
+   
+    try:
+        fin = open(file_name, 'r')
+        data = fin.readlines()
+        fout = open(file_name+".enigma_output", 'w')    
+        
+        for line in data:
+            line.strip()
+            cipher = enigma(line)
+            fout.write(cipher)
+        
+        print(f"[+] successfully done, the output saved in {file_name}.enigma_output")
+    
+    except Exception as err:
+        print(f"[-] error: {err}")
+
+
+#initialize the command line arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--iactive", required=False, help="interacitve mode")
+ap.add_argument("-f", "--file", required=False, help="file")
+
+args = vars(ap.parse_args())
+
 def main():
-    plain = input("text : ")
-    cipher = enigma(plain)
-    print(f"enc : {cipher}")
+    if len(args) > 0:
+        if args['iactive']:
+            plain = input("[+] Text : ")
+            cipher = enigma(plain)
+            print(f"[+] ENC  : {cipher}")
+        
+        elif file_name:=args['file']:
+            file_enc(file_name)
+
+        else:
+            ap.print_help()
 
 
 if __name__ == "__main__":

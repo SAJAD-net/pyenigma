@@ -22,5 +22,5 @@ rotor3 = ''.join(rotor3)
 econfig = open("enigma_rotors_configuration.enigma", "wb")
 pickle.dump((rotor1, rotor2, rotor3), econfig)
 
-print("- rotors successfully configured!")
+print("[+] rotors successfully configured!")
 
