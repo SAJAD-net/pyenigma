@@ -18,7 +18,7 @@ rotor2 = ''.join(rotor2)
 random.shuffle(rotor3)
 rotor3 = ''.join(rotor3)
 
-#save the rotors' configuration in enigma_rotors_configuration.enigma
+#save the rotors configuration in enigma_rotors_configuration.enigma
 econfig = open("enigma_rotors_configuration.enigma", "wb")
 pickle.dump((rotor1, rotor2, rotor3), econfig)
 
