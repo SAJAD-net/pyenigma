@@ -9,7 +9,7 @@ import sys
 alpha = "abcdefghijklmnopqrstuvwxyz"
 symbols = "'?!@#$%^&*():><{}-,_."
 
-#clear the screen before the programm runs
+#clear the screen before the program runs
 os.system("clear") if os.name == "posix" else os.system("cls")
 
 print("""\td88888b d8b   db d888888b  d888b  .88b  d88.  .d8b.  
@@ -48,7 +48,7 @@ def rotate_rotors(state):
         rotor3 = rotor3[1:] + rotor3[0]
 
 
-#enigma encryptor/decryptor
+#enigma code and decode
 def enigma(plain):
     cipher = ""
     state = 0
@@ -64,7 +64,7 @@ def enigma(plain):
             cipher += " "
             continue
 
-        #enigma encrypt/decrypt
+        #enigma code and decode
         c1 = rotor1[alpha.find(ch)]
         c2 = rotor2[alpha.find(c1)]
         c3 = rotor3[alpha.find(c2)]
@@ -79,9 +79,10 @@ def enigma(plain):
     
     return cipher
 
-
+#code and decode the file_name file content.
 def file_enc(file_name):
    
+    #open the file_name file and code/decode the it's content.
     try:
         fin = open(file_name, 'r')
         data = fin.readlines()
@@ -100,7 +101,7 @@ def file_enc(file_name):
 
 #initialize the command line arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--iactive", required=False, help="interacitve mode")
+ap.add_argument("-i", "--iactive", action="store_true", required=False, help="interacitve mode")
 ap.add_argument("-f", "--file", required=False, help="file")
 
 args = vars(ap.parse_args())
