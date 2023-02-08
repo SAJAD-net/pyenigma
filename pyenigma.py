@@ -7,7 +7,8 @@ import sys
 
 #intialize the alpha and symbols
 alpha = "abcdefghijklmnopqrstuvwxyz"
-symbols = "'?!@#$%^&*():><{}-,_."
+symbols = "'?!@#$%^&*():><{}-,_.\\"
+escape_chars = ["\n","\t","\r"]
 
 #clear the screen before the program runs
 os.system("clear") if os.name == "posix" else os.system("cls")
@@ -54,17 +55,22 @@ def enigma(plain):
     state = 0
 
     for ch in plain:
-        #ignore the symbols
+        #ignore the symbols.
         if ch in symbols:
             cipher += ch
             continue
 
-        #ignore the whitespaces
+        #ignore the whitespaces.
         if ch == " ":
             cipher += " "
             continue
+        
+        #ignore the escape characters like \n \t \r.
+        if ch in escape_chars:
+            cipher += ch
+            continue
 
-        #enigma code and decode
+        #enigma code and decode.
         c1 = rotor1[alpha.find(ch)]
         c2 = rotor2[alpha.find(c1)]
         c3 = rotor3[alpha.find(c2)]
