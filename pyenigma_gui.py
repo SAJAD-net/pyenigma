@@ -119,6 +119,9 @@ class Ui_MainWindow(object):
 		self.state = 0
 
 		for ch in plain:
+			#lowercase every single character.
+			ch = ch.lower()
+			
 			#ignore the symbols.
 			if ch in self.symbols:
 			    self.cipher += ch
