@@ -55,6 +55,9 @@ def enigma(plain):
     state = 0
 
     for ch in plain:
+        #lowercase every single character.
+        ch = ch.lower()
+
         #ignore the symbols.
         if ch in symbols:
             cipher += ch
