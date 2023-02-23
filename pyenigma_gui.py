@@ -98,9 +98,11 @@ class Ui_MainWindow(object):
 			
 		
 	#reflect every single character. example => a : z, b : y 
-	def reflector(self, c):
-	   reflected = self.alpha[(26-self.alpha.find(c))-1]
-	   return reflected
+	def reflector(self, c, upcase=False):
+		reflected = self.alpha[(26-self.alpha.find(c))-1]
+		if upcase:
+			reflected.upper()
+		return reflected
 	   
 	   
 	#rotate the rotors
@@ -117,11 +119,10 @@ class Ui_MainWindow(object):
 	def enigma(self, plain):
 		self.cipher = ""
 		self.state = 0
+		
+		for ch in plain:						
+			upcase = False
 
-		for ch in plain:
-			#lowercase every single character.
-			ch = ch.lower()
-			
 			#ignore the symbols.
 			if ch in self.symbols:
 			    self.cipher += ch
@@ -137,16 +138,26 @@ class Ui_MainWindow(object):
 			    self.cipher += ch
 			    continue
 
+			if ch.isupper():
+				upcase = True
+
+			#lowercase every single character.
+			ch = ch.lower()
+
 			#enigma code and decode operation.
 			c1 = self.rotor1[self.alpha.find(ch)]
 			c2 = self.rotor2[self.alpha.find(c1)]
 			c3 = self.rotor3[self.alpha.find(c2)]
-			c3 = self.alpha[self.rotor3.find(self.reflector(c3))]
+			c3 = self.alpha[self.rotor3.find(self.reflector(c3, upcase))]
 			c2 = self.alpha[self.rotor2.find(c3)]
 			c1 = self.alpha[self.rotor1.find(c2)]
-				
-			self.cipher += c1
-				
+			
+			#handle the capital characters
+			if upcase:
+				self.cipher += c1.upper()
+			else:
+				self.cipher += c1
+
 			self.state += 1
 			self.rotate_rotors()        
 			
