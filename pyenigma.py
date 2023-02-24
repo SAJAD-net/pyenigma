@@ -35,8 +35,8 @@ except Exception as err:
 
 #reflect every single character. example => a : z, b : y 
 def reflector(c):
-   reflected = alpha[(26-alpha.find(c))-1]
-   return reflected
+    reflected = alpha[(26-alpha.find(c))-1]
+    return reflected
 
 
 #rotate the rotors
@@ -55,8 +55,7 @@ def enigma(plain):
     state = 0
 
     for ch in plain:
-        #lowercase every single character.
-        ch = ch.lower()
+        upcase = False
 
         #ignore the symbols.
         if ch in symbols:
@@ -73,6 +72,12 @@ def enigma(plain):
             cipher += ch
             continue
 
+        if ch.isupper():
+                upcase = True
+
+        #lowercase every single character.
+        ch = ch.lower()
+
         #enigma code and decode.
         c1 = rotor1[alpha.find(ch)]
         c2 = rotor2[alpha.find(c1)]
@@ -81,12 +86,17 @@ def enigma(plain):
         c2 = alpha[rotor2.find(c3)]
         c1 = alpha[rotor1.find(c2)]
         
-        cipher += c1
-        
+        #handle the capital characters
+        if upcase:
+            cipher += c1.upper()
+        else:
+            cipher += c1
+    
         state += 1
         rotate_rotors(state)        
     
     return cipher
+
 
 #code and decode the file_name file content.
 def file_enc(file_name):
@@ -115,18 +125,18 @@ ap.add_argument("-f", "--file", required=False, help="file")
 
 args = vars(ap.parse_args())
 
-def main():
-    if len(args) > 0:
-        if args['iactive']:
-            plain = input("[+] Text : ")
-            cipher = enigma(plain)
-            print(f"[+] ENC  : {cipher}")
-        
-        elif file_name:=args['file']:
-            file_enc(file_name)
 
-        else:
-            ap.print_help()
+def main():
+    if args['iactive']:
+        plain = input("[+] Text : ")
+        cipher = enigma(plain)
+        print(f"[+] ENC  : {cipher}")
+    
+    elif file_name:=args['file']:
+        file_enc(file_name)
+
+    else:
+        ap.print_help()
 
 
 if __name__ == "__main__":
