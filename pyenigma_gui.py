@@ -98,10 +98,8 @@ class Ui_MainWindow(object):
 			
 		
 	#reflect every single character. example => a : z, b : y 
-	def reflector(self, c, upcase=False):
+	def reflector(self, c):
 		reflected = self.alpha[(26-self.alpha.find(c))-1]
-		if upcase:
-			reflected.upper()
 		return reflected
 	   
 	   
@@ -148,7 +146,7 @@ class Ui_MainWindow(object):
 			c1 = self.rotor1[self.alpha.find(ch)]
 			c2 = self.rotor2[self.alpha.find(c1)]
 			c3 = self.rotor3[self.alpha.find(c2)]
-			c3 = self.alpha[self.rotor3.find(self.reflector(c3, upcase))]
+			c3 = self.alpha[self.rotor3.find(self.reflector(c3))]
 			c2 = self.alpha[self.rotor2.find(c3)]
 			c1 = self.alpha[self.rotor1.find(c2)]
 			
